@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Path, HTTPException, status, Body
-from gamestore.models import Game, CreateGame
+from gamestore.models import (
+    Game, CreateGame, UpdateGame
+)
 
 router = APIRouter(
     tags = ["game"]
@@ -38,4 +40,30 @@ def read_game(game_id: int = Path()):
         )
     return db.get(game_id)
 
+@router.put(
+    path="/game/{game_id}",
+    response_model=Game
+)
+def update_game(
+        game: UpdateGame = Body(),
+        game_id: int = Path()
+):
+    game_orig = read_game(game_id)
+    for k, v in game.model_dump().items():
+        if v is None:
+            continue
+        game_orig.price = v
+        setattr(game_orig, k, v) # setattr(x, 'y', v) is equivalent to x.y = v
 
+    db[game_orig.id] = game_orig
+
+    return game_orig
+
+
+@router.delete(
+    path="/game/{game_id}",
+    response_model=None
+)
+def delete_game(game_id: int = Path()):
+    read_game(game_id)
+    del db[game_id]

@@ -1,0 +1,4 @@
+pytest
+pytest_cov
+pytest_http
+httpx
