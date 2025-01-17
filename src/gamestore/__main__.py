@@ -26,7 +26,7 @@ def docs():
 
 
 def main():
-     logger.info("Staring GameStore")
+     logger.info("Staring GameStore %s", __version__)
      uvicorn.run(app, log_config=None)
 
 

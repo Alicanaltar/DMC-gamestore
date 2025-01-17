@@ -36,7 +36,7 @@ def read_game(game_id: int = Path()):
     if g is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Game with id {game_id} does not exists"
+            detail=f"Game with id {game_id} does not exist"
         )
     return db.get(game_id)
 
