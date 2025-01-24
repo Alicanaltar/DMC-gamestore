@@ -62,11 +62,11 @@ def test_delete_game(client, test_game):
     r = client.post("/game", content=json.dumps(test_game))
     created_game = r.json()
 
-    r = client.get("/game/-1")
-    assert r.status_code == 404
+    r = client.get(f"/game/{created_game["id"]}")
+    assert r.status_code == 200
 
-    r = client.get("/game/-1")
-    assert r.status_code == 404
+    r = client.delete(f"/game/{created_game["id"]}")
+    assert r.status_code == 200
 
-    r = client.get("/game/-1")
+    r = client.get(f"/game/{created_game["id"]}")
     assert r.status_code == 404

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Path, HTTPException, status, Body
 from gamestore.models import (
     Game, CreateGame, UpdateGame
 )
+from gamestore.db_handler import game_table as db
 
 router = APIRouter(
     tags = ["game"]
@@ -15,9 +16,7 @@ gow = Game(
     release_year=2018
 )
 
-db = {
-    1: gow
-}
+db[gow.id] = gow
 
 @router.post(
     path="/game",
