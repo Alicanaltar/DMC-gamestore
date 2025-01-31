@@ -17,11 +17,21 @@ class UpdateGame(BaseModel):
 class Game(CreateGame):
     id: int
 
-class Order(BaseModel):
-    id: int
-    costumer: str
+class CreateOrder(BaseModel):
+    customer: str
     status: str
-    games: list[Game]
+
+class Order(CreateOrder):
+    id: int
+
+class FullOrder(Order):
+    games: list[Game] = Field(default_factory=lambda: [])
+
+class OrderGame(BaseModel):
+    id: int
+    order_id: int
+    game_id: int
+
 
 
 
